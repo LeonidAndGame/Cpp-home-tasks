@@ -1,7 +1,7 @@
 #include <bitset>
 #include <iostream>
 
-unsigned int gray(unsigned int n) { return (n ^ (n >> 1)); }
+unsigned int gray(const unsigned int n) { return (n ^ (n >> 1)); }
 
 unsigned int gray_decode(unsigned int g) {
   unsigned int n = 0;
