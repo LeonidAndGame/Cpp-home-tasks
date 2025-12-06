@@ -1,0 +1,26 @@
+#include <bitset>
+#include <iostream>
+
+unsigned int gray(unsigned int n) { return (n ^ (n >> 1)); }
+
+unsigned int gray_decode(unsigned int g) {
+  unsigned int n = 0;
+  while (g) {
+    n ^= g;
+    g >>= 1;
+  }
+  return n;
+}
+
+int main() {
+  std::cout << "Binary Gray DeGray\n";
+  for (unsigned int n = 0; n < 32; ++n) {
+    std::bitset<5> bin_n(n);
+    unsigned int gray_decimal = gray(n);
+    std::bitset<5> bin_gray(gray_decimal);
+    unsigned int decoded_n = gray_decode(gray_decimal);
+    std::bitset<5> bin_decoded_n(decoded_n);
+    std::cout << bin_n << " " << bin_gray << " " << bin_decoded_n << "\n";
+  }
+  return 0;
+}
