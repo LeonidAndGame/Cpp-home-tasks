@@ -4,20 +4,14 @@
 #include <thread>
 #include <vector>
 
-using charmatrix = std::vector<std::vector<char>>;
-
 class Life {
  public:
-  int n = 10;
-  int m = 10;
-  charmatrix field = charmatrix(n, std::vector<char>(m, '#'));
-
   void random_fill(double fill_percentage = 0.5) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < m; ++j) {
+    for (int i = 0; i < width; ++i) {
+      for (int j = 0; j < length; ++j) {
         if (dis(gen) < fill_percentage) {
           field[i][j] = '#';
         } else {
@@ -25,12 +19,25 @@ class Life {
         }
       }
     }
+    print_field();
   }
 
+  void update() {
+    next_state();
+    print_field();
+  }
+
+ private:
+  using charmatrix = std::vector<std::vector<char>>;
+
+  int width = 10;
+  int length = 10;
+  charmatrix field = charmatrix(width, std::vector<char>(length, '#'));
+
   void print_field() const {
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < m; ++j) {
-        std::cout << field[i][j];
+    for (int width_iter = 0; width_iter < width; ++width_iter) {
+      for (int length_iter = 0; length_iter < length; ++length_iter) {
+        std::cout << field[width_iter][length_iter];
       }
       std::cout << "\n";
     }
@@ -40,40 +47,46 @@ class Life {
 
   void next_state() {
     charmatrix new_field = field;
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < m; ++j) {
+    for (int width_iter = 0; width_iter < width; ++width_iter) {
+      for (int length_iter = 0; length_iter < length; ++length_iter) {
         bool state;
-        if (field[i][j] == '#') {
+        if (field[width_iter][length_iter] == '#') {
           state = true;
         } else {
           state = false;
         }
-        if (next_state_of_cell(i, j, state)) {
-          new_field[i][j] = '#';
+        if (next_state_of_cell(width_iter, length_iter, state)) {
+          new_field[width_iter][length_iter] = '#';
         } else {
-          new_field[i][j] = ' ';
+          new_field[width_iter][length_iter] = ' ';
         }
       }
     }
     field = new_field;
   }
 
- private:
-  [[nodiscard]] bool next_state_of_cell(const int p, const int q,
-                                        bool f) const {
-    int counter = 0;
-    for (int i = -1; i <= 1; ++i) {
-      for (int j = -1; j <= 1; ++j) {
-        if (i != 0 || j != 0) {
-          if (p + i >= 0 && p + i < n && q + j >= 0 && q + j < m) {
-            if (field[p + i][q + j] == '#') {
-              ++counter;
-            }
+  [[nodiscard]] bool next_state_of_cell(const int width_pos,
+                                        const int length_pos,
+                                        bool flag_of_living) const {
+    int counter_live_neighbors = 0;
+    for (int width_iter = -1; width_iter <= 1;
+         ++width_iter) {  // Search through all the neighbors
+      for (int length_iter = -1; length_iter <= 1; ++length_iter) {
+        if (width_iter == 0 && length_iter == 0) {
+          continue;
+        }
+        if (width_pos + width_iter >= 0 && width_pos + width_iter < width &&
+            length_pos + length_iter >= 0 &&
+            length_pos + length_iter < length) {
+          if (field[width_pos + width_iter][length_pos + length_iter] == '#') {
+            ++counter_live_neighbors;
           }
         }
       }
     }
-    if ((f && (counter == 2 || counter == 3)) || (not f && counter == 3)) {
+    if ((flag_of_living &&
+         (counter_live_neighbors == 2 || counter_live_neighbors == 3)) ||
+        (not flag_of_living && counter_live_neighbors == 3)) {
       return true;
     }
     return false;
@@ -85,8 +98,7 @@ int main() {
   Life game;
   game.random_fill();
   while (--moves) {
-    game.print_field();
-    game.next_state();
+    game.update();
   }
   return 0;
 }
