@@ -10,12 +10,12 @@ class Life {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
-    for (int i = 0; i < width; ++i) {
-      for (int j = 0; j < length; ++j) {
+    for (int width_iter = 0; width_iter < width; ++width_iter) {
+      for (int length_iter = 0; length_iter < length; ++length_iter) {
         if (dis(gen) < fill_percentage) {
-          field[i][j] = '#';
+          field[width_iter][length_iter] = '#';
         } else {
-          field[i][j] = ' ';
+          field[width_iter][length_iter] = ' ';
         }
       }
     }
