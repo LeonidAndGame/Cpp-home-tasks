@@ -69,8 +69,8 @@ class Life {
                                         const int length_pos,
                                         bool flag_of_living) const {
     int counter_live_neighbors = 0;
-    for (int width_iter = -1; width_iter <= 1;
-         ++width_iter) {  // Search through all the neighbors
+    // Search through all the neighbors
+    for (int width_iter = -1; width_iter <= 1; ++width_iter) {
       for (int length_iter = -1; length_iter <= 1; ++length_iter) {
         if (width_iter == 0 && length_iter == 0) {
           continue;
