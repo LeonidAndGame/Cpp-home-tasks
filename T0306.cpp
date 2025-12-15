@@ -12,15 +12,15 @@ class Shape {
   [[nodiscard]] virtual double area() const = 0;
 };
 
-struct Circle final : Shape {
+class Circle final : Shape {
+  double radius;
+
+ public:
   explicit Circle(double r) : radius(r) {}
 
   [[nodiscard]] double perimeter() const override { return 2 * M_PI * radius; }
 
   [[nodiscard]] double area() const override { return M_PI * radius * radius; }
-
- private:
-  double radius;
 };
 
 class Polygon : public Shape {};
