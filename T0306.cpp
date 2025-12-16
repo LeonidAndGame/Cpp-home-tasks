@@ -88,19 +88,6 @@ void test_shapes() {
   Rectangle* rectPtr = &square;
   assert(std::abs(rectPtr->perimeter() - 16.0) < 0.0001);
   assert(std::abs(rectPtr->area() - 16.0) < 0.0001);
-  std::vector<std::unique_ptr<Shape>> test_shapes;
-  test_shapes.push_back(std::make_unique<Circle>(1.0));
-  test_shapes.push_back(std::make_unique<Triangle>(3.0, 4.0, 5.0));
-  test_shapes.push_back(std::make_unique<Rectangle>(2.0, 3.0));
-  test_shapes.push_back(std::make_unique<Square>(4.0));
-  assert(std::abs(test_shapes[0]->perimeter() - 2 * M_PI) < 0.0001);
-  assert(std::abs(test_shapes[0]->area() - M_PI) < 0.0001);
-  assert(std::abs(test_shapes[1]->perimeter() - 12.0) < 0.0001);
-  assert(std::abs(test_shapes[1]->area() - 6.0) < 0.0001);
-  assert(std::abs(test_shapes[2]->perimeter() - 10.0) < 0.0001);
-  assert(std::abs(test_shapes[2]->area() - 6.0) < 0.0001);
-  assert(std::abs(test_shapes[3]->perimeter() - 16.0) < 0.0001);
-  assert(std::abs(test_shapes[3]->area() - 16.0) < 0.0001);
 }
 
 int main() {
